@@ -252,7 +252,7 @@ Sample output:
     }
     return fragments;
   },
-  "url": 'https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/cardList.vue',
+  "url": 'https://liuwenjin.github.io/agentAppList/appItem/cardList.vue',
   "className": 'ElementVueItem',
   "cardName": 'pptAppCard',
   "dsl": {
@@ -588,7 +588,7 @@ Sample output:
       }
     }
     let testApp = {
-      url: "https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/testApp.vue",
+      url: "https://liuwenjin.github.io/agentAppList/appItem/testApp.vue",
       className: "ElementVueItem",
       dsl: {
         data: {
@@ -611,7 +611,7 @@ Sample output:
     });
 
     let lightedTree = {
-      url: "https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/lightedTree.vue",
+      url: "https://liuwenjin.github.io/agentAppList/appItem/lightedTree.vue",
       className: "ElementVueItem",
       dsl: {
         data: {
@@ -638,7 +638,7 @@ Sample output:
     return fragments;
 
   },
-  "url": 'https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/knowledgeTree.vue',
+  "url": 'https://liuwenjin.github.io/agentAppList/appItem/knowledgeTree.vue',
   "className": 'ElementVueItem',
   "cardName": 'knowledgeTreeCard',
   "dsl": {
@@ -723,7 +723,7 @@ Example output: \`\`\` { "name": "xxx", "children": [{ "name": "xxx", "cards": [
 
   },
   "dataFormat": 'json',
-  "url": 'https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/flashcards.vue',
+  "url": 'https://liuwenjin.github.io/agentAppList/appItem/flashcards.vue',
   "className": 'ElementVueItem',
   "cardName": 'flashcardsApp',
   "dsl": {

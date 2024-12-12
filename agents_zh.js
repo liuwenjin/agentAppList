@@ -254,10 +254,11 @@
     }
     return fragments;
   },
-  url: "https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/cardList.vue",
+  url: "https://liuwenjin.github.io/agentAppList/appItem/cardList.vue",
   className: "ElementVueItem",
   cardName: "pptAppCard",
   dsl: {
+    proxy: false,
     style: {
       padding: "0px"
     },
@@ -580,9 +581,10 @@
       }
     }
     let testApp = {
-      url: "https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/testApp.vue",
+      url: "https://liuwenjin.github.io/agentAppList/appItem/testApp.vue",
       className: "ElementVueItem",
       dsl: {
+        proxy: false,
         data: {
           qMap: qMap,
           list: qArr
@@ -603,9 +605,10 @@
     });
 
     let lightedTree = {
-      url: "https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/lightedTree.vue",
+      url: "https://liuwenjin.github.io/agentAppList/appItem/lightedTree.vue",
       className: "ElementVueItem",
       dsl: {
+        proxy: false,
         data: {
           content: {
             dsl: [WebTool.copyObject(mindmapItem)]
@@ -630,10 +633,11 @@
     return fragments;
 
   },
-  url: "https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/knowledgeTree.vue",
+  url: "https://liuwenjin.github.io/agentAppList/appItem/knowledgeTree.vue",
   className: "ElementVueItem",
   cardName: "knowledgeTreeCard",
   dsl: {
+    proxy: false,
     style: {
       padding: "0px"
     },
@@ -748,10 +752,11 @@
 `;
   },
   dataFormat: "json",
-  url: 'https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/flashcards.vue',
+  url: 'https://liuwenjin.github.io/agentAppList/appItem/flashcards.vue',
   className: "ElementVueItem",
   cardName: "flashcardsApp",
   dsl: {
+    proxy: false,
     style: {
       padding: "0px"
     },
