@@ -254,7 +254,7 @@
     }
     return fragments;
   },
-  url: "https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/cardList.vue",
+  url: "https://liuwenjin.github.io/agentAppList/appItem/cardList.vue",
   className: "ElementVueItem",
   cardName: "pptAppCard",
   dsl: {
@@ -580,7 +580,7 @@
       }
     }
     let testApp = {
-      url: "https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/testApp.vue",
+      url: "https://liuwenjin.github.io/agentAppList/appItem/testApp.vue",
       className: "ElementVueItem",
       dsl: {
         data: {
@@ -603,7 +603,7 @@
     });
 
     let lightedTree = {
-      url: "https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/lightedTree.vue",
+      url: "https://liuwenjin.github.io/agentAppList/appItem/lightedTree.vue",
       className: "ElementVueItem",
       dsl: {
         data: {
@@ -630,7 +630,7 @@
     return fragments;
 
   },
-  url: "https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/knowledgeTree.vue",
+  url: "https://liuwenjin.github.io/agentAppList/appItem/knowledgeTree.vue",
   className: "ElementVueItem",
   cardName: "knowledgeTreeCard",
   dsl: {
@@ -748,7 +748,7 @@
 `;
   },
   dataFormat: "json",
-  url: 'https://raw.githubusercontent.com/liuwenjin/agentAppList/refs/heads/main/appItem/flashcards.vue',
+  url: 'https://liuwenjin.github.io/agentAppList/appItem/flashcards.vue',
   className: "ElementVueItem",
   cardName: "flashcardsApp",
   dsl: {
