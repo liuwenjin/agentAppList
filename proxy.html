@@ -15,8 +15,253 @@
 <body style="width: 100%; height: 100%; display: flex; flex-wrap: wrap; justify-content:center; align-items:center;">
 	<div class="contentArea" style="width: 100%; height: 100%; max-width: 1200px;">代理跨域请求...</div>
 </body>
-<script src="https://transweb.cn/transweb/webCpu.js"></script>
 <script>
+	WebAdapter = {};
+	WebAdapter.attachParams = function (url, params) {
+		if (url.indexOf("?") === -1) {
+			flag = 0;
+		} else {
+			flag = 1;
+		}
+		for (var k in params) {
+			var v = params[k];
+			if (typeof (v) != "string") {
+				v = JSON.stringify(v);
+			}
+			if (flag == 0) {
+				url += "?" + k + "=" + encodeURIComponent(v);
+				flag = 1;
+			} else {
+				url += "&" + k + "=" + encodeURIComponent(v);
+			}
+		}
+		return url;
+	}
+
+	WebAdapter.bindData = function (str, obj, filter, arr) {
+		var ret = str;
+		if (obj && typeof (obj) === "object") {
+			var re = /{{([^}}]+)?}}/g;
+			if (arr) {
+				re = /\[([^\]]+)?\]/g;
+			}
+			str.filter = filter;
+			var _self = str;
+			var ret = _self.replace(re, function (m, t) {
+				var temp = obj;
+				var ret = (function () {
+					var o = temp;
+					var keys = t.split(".");
+					for (var i = 0; i < keys.length; i++) {
+						o = o[keys[i]];
+						if (o === undefined || o === null) {
+							o = "{{" + keys[i] + "}}";
+							if (arr) {
+								o = "[" + keys[i] + "]";
+							}
+						}
+					}
+					var m = !(_self.filter && typeof (_self.filter[keys[i - 1]]) === "function") ? o : _self.filter[keys[
+						i - 1]](o);
+					return m;
+				})();
+				return ret;
+			});
+		}
+		return ret;
+	}
+
+	WebAdapter.request = function (url, type, query, callback, options, params) {
+		if (!url) {
+			return false;
+		}
+		options = options || {};
+		options.params = params || options.params;
+		if (options.params) {
+			url = WebAdapter.bindData(url, options.params);
+		}
+
+		if (type !== "_jsonp") {
+			if (typeof options === "string") {
+				options = {
+					dataType: options
+				}
+			}
+			var request = new AjaxInterface(url, type, options);
+			request(query, function (data) {
+				if (typeof (callback) === "function") {
+					callback(data);
+				}
+			}, params);
+		}
+	}
+
+	WebAdapter.listenMessage = function (callback, origin) {
+		var tCallback = function (message) {
+			if (!origin || origin === message.origin || origin === "*") {
+				callback(message);
+			}
+		};
+		if (window.addEventListener) {
+			window.removeEventListener('message', tCallback);
+			window.addEventListener('message', tCallback, false)
+		} else {
+			window.detachEvent("onmessage", tCallback);
+			window.attachEvent('onmessage', tCallback);
+		}
+	}
+
+	var AjaxInterface = function (url, type, options) {
+		this.url = url;
+		this.contentType = options.contentType;
+		this.type = type;
+		this.dataType = options.dataType;
+		this.header = options.header;
+		this.proxy = options.proxy;
+		this.authorization = options.authorization;
+		if (this.proxy === true) {
+			let arr = this.url.match(/https?:\/\/([^/]+)\//i);
+			if (arr && arr[0]) {
+				this.proxy = arr[0] + "proxy.html";
+				this.url = url.replace(arr[0], "");
+			} else {
+				this.proxy = false;
+			}
+		}
+		return this.init(type, options.dataType);
+	}
+
+	AjaxInterface.prototype.sendData = function (query, callback, params) {
+		var data = query;
+		var url = this.url;
+		if (params && typeof WebAdapter.bindData === "function") {
+			url = WebAdapter.bindData(url, params);
+		}
+		var type = this.type;
+		var dType = this.dataType || "json";
+		var cTypeMap = {
+			"json": "application/json; charset=UTF-8",
+			"form-data": "multipart/form-data",
+			"form-urlencoded": "application/x-www-form-urlencoded; charset=UTF-8"
+		};
+		var cType = this.contentType || "application/x-www-form-urlencoded; charset=UTF-8";
+		cType = cTypeMap[cType] || cType;
+
+		if (query && query.constructor.name === "FormData") {
+			cType = "multipart/form-data";
+		}
+
+		if (type.toLocaleUpperCase() === "GET" || type.toLocaleUpperCase() === "DELETE") {
+			var tData = {};
+			for (var k in query) {
+				if (typeof query[k] === "object") {
+					tData[k] = JSON.stringify(query[k]);
+				} else {
+					tData[k] = query[k];
+				}
+			}
+			url = WebAdapter.attachParams(url, tData);
+		}
+		var _self = this;
+		this.httpObj.onreadystatechange = function () {
+			if (_self.httpObj.readyState == 4 || _self.httpObj.readyState == "complete") {
+				if (typeof (callback) === "function") {
+					var d = _self.httpObj.responseText;
+					// tData = d;
+					if (dType === "json") {
+						try {
+							d = JSON.parse(d);
+						} catch (e) {
+							console.log("json parse error.")
+						}
+					}
+
+					if (AjaxInterface.interceptor && typeof AjaxInterface.interceptor.response === "function") {
+						AjaxInterface.interceptor.response(_self.httpObj);
+					}
+
+					if (_self.httpObj.status > 399) {
+						return false;
+					}
+
+					callback(d);
+				}
+			}
+		};
+
+		this.httpObj.open(type, url, true);
+		if (cType.search("application/x-www-form-urlencoded") !== -1) {
+			data = {};
+			for (var k in query) {
+				if (typeof query[k] === "object") {
+					data[k] = JSON.stringify(query[k]);
+				} else {
+					data[k] = query[k];
+				}
+			}
+			data = WebAdapter.attachParams("", data).split("?")[1];
+		} else if (cType.search("application/json") !== -1) {
+			data = JSON.stringify(query);
+		} else if (query && cType.search("multipart/form-data") !== -1 && ["FormData", "String", "Number", "Array"]
+			.indexOf(query.constructor.name) === -1) {
+			data = new FormData();
+			for (var k in query) {
+				data.append(k, query[k]);
+			}
+		} else {}
+
+		if (cType.search("multipart/form-data") === -1) {
+			this.httpObj.setRequestHeader("Content-Type", cType);
+		}
+
+		if (_self.authorization) {
+			this.httpObj.setRequestHeader("Authorization", _self.authorization);
+		}
+
+		_self.header = _self.header || {};
+		if (location.pathname.search("/proxy.html") === -1) {
+			_self.header["transweb-token"] = localStorage.getItem("transweb-token") || "";
+		}
+		if (_self.header) {
+			for (var k in _self.header) {
+				this.httpObj.setRequestHeader(k, _self.header[k]);
+			}
+		}
+
+		if (AjaxInterface.interceptor && typeof AjaxInterface.interceptor.request === "function") {
+			AjaxInterface.interceptor.request(this.httpObj);
+		}
+
+		this.httpObj.send(data);
+	}
+
+	AjaxInterface.prototype.init = function () {
+		this.httpObj = this.getHttpObj();
+		if (this.httpObj) {
+			var _self = this;
+			return (function (query, callback, params) {
+				_self.sendData(query, callback, params);
+			});
+		}
+	}
+
+	AjaxInterface.prototype.getHttpObj = function () {
+		var xmlHttp = null;
+		try {
+			// Firefox, Opera 8.0+, Safari
+			xmlHttp = new XMLHttpRequest();
+		} catch (e) {
+			//Internet Explorer
+			try {
+				xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+			} catch (e) {
+				xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+		}
+		return xmlHttp;
+	}
+
+
 	if (window.parent && window.parent !== window) {
 		window.parent.postMessage({
 			inited: true,
@@ -24,7 +269,7 @@
 			message: "iframe inited successfull!"
 		}, "*");
 
-		WebTool.listenMessage(function (e) {
+		WebAdapter.listenMessage(function (e) {
 			var data = e.data;
 			if (typeof (data) === "string" && data.search('{') !== -1 && data.search('}') !== -1) {
 				data = JSON.parse(data);
@@ -53,7 +298,6 @@
 			}
 		}, "*");
 	}
-	
 </script>
 
 </html>
