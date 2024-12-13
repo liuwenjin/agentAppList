@@ -256,6 +256,7 @@ Sample output:
   "className": 'ElementVueItem',
   "cardName": 'pptAppCard',
   "dsl": {
+    tProxy: "https://liuwenjin.github.io/agentAppList/proxy.html",
     "style": {
       "padding": '0px'
     }
@@ -591,6 +592,7 @@ Sample output:
       url: "https://liuwenjin.github.io/agentAppList/appItem/testApp.vue",
       className: "ElementVueItem",
       dsl: {
+        tProxy: "https://liuwenjin.github.io/agentAppList/proxy.html",
         data: {
           qMap: qMap,
           list: qArr
@@ -614,6 +616,7 @@ Sample output:
       url: "https://liuwenjin.github.io/agentAppList/appItem/lightedTree.vue",
       className: "ElementVueItem",
       dsl: {
+        tProxy: "https://liuwenjin.github.io/agentAppList/proxy.html",
         data: {
           content: {
             dsl: [WebTool.copyObject(mindmapItem)]
@@ -642,6 +645,7 @@ Sample output:
   "className": 'ElementVueItem',
   "cardName": 'knowledgeTreeCard',
   "dsl": {
+    tProxy: "https://liuwenjin.github.io/agentAppList/proxy.html",
     "style": {
       "padding": '0px'
     }
@@ -727,6 +731,7 @@ Example output: \`\`\` { "name": "xxx", "children": [{ "name": "xxx", "cards": [
   "className": 'ElementVueItem',
   "cardName": 'flashcardsApp',
   "dsl": {
+    tProxy: "https://liuwenjin.github.io/agentAppList/proxy.html",
     "style": {
       "padding": '0px'
     }

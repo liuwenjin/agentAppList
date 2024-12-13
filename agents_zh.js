@@ -258,7 +258,7 @@
   className: "ElementVueItem",
   cardName: "pptAppCard",
   dsl: {
-    proxy: false,
+    tProxy: "https://liuwenjin.github.io/agentAppList/proxy.html",
     style: {
       padding: "0px"
     },
@@ -584,7 +584,7 @@
       url: "https://liuwenjin.github.io/agentAppList/appItem/testApp.vue",
       className: "ElementVueItem",
       dsl: {
-        proxy: false,
+        tProxy: "https://liuwenjin.github.io/agentAppList/proxy.html",
         data: {
           qMap: qMap,
           list: qArr
@@ -608,7 +608,7 @@
       url: "https://liuwenjin.github.io/agentAppList/appItem/lightedTree.vue",
       className: "ElementVueItem",
       dsl: {
-        proxy: false,
+        tProxy: "https://liuwenjin.github.io/agentAppList/proxy.html",
         data: {
           content: {
             dsl: [WebTool.copyObject(mindmapItem)]
@@ -637,7 +637,7 @@
   className: "ElementVueItem",
   cardName: "knowledgeTreeCard",
   dsl: {
-    proxy: false,
+    tProxy: "https://liuwenjin.github.io/agentAppList/proxy.html",
     style: {
       padding: "0px"
     },
@@ -756,7 +756,7 @@
   className: "ElementVueItem",
   cardName: "flashcardsApp",
   dsl: {
-    proxy: false,
+    tProxy: "https://liuwenjin.github.io/agentAppList/proxy.html",
     style: {
       padding: "0px"
     },
