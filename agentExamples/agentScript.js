@@ -6,7 +6,7 @@ transweb_agents({
         "dataShare": true,
         "meta": {
             "label": '高中智能出题',
-            "description": '帮助学员备考高考，提供快速梳理知识结构、智能出题和错题讲解服务。',
+            "description": '智能出题、专业讲解，错题变成新起点，一步步提升成绩。',
             "slogan": '语文备考小帮手：AI 测评与错题诊断系统',
             "slogan1": '覆盖核心考点 · 提升应试技巧 · 全面巩固语文基础',
             "buttonText": '开始出题',
