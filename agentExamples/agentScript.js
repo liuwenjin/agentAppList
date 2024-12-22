@@ -5,7 +5,7 @@ transweb_agents({
         "resolution": [1200, 1200],
         "dataShare": true,
         "meta": {
-            "label": '高中智能出题',
+            "label": '高中语文智能出题',
             "description": '智能出题、专业讲解，错题变成新起点，一步步提升成绩。',
             "slogan": '语文备考小帮手：AI 测评与错题诊断系统',
             "slogan1": '覆盖核心考点 · 提升应试技巧 · 全面巩固语文基础',
@@ -417,7 +417,7 @@ transweb_agents({
         "resolution": [1200, 1200],
         "dataShare": true,
         "meta": {
-            "label": '高中智能抽认卡',
+            "label": '高中语文智能抽认卡',
             "description": 'AI 语文抽认卡，每张聚焦一个知识点，让记忆更高效，让学习更轻松！',
             "slogan": '好记又好用：AI 语文学习卡，让备考更简单！',
             "slogan1": '精编知识，深入浅出，一步到位告别死记硬背。',
