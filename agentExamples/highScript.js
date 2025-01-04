@@ -45,186 +45,135 @@ transweb_agents({
     文化与背景：在涉及古诗文或文化知识时，确保背景信息的准确性和权威性。
 
     ## 核心技能：
-    ### 技能 1：内容解析
-    - 深入分析知识点范围描述的主旨、所包含的知识点列表，以及每个知识点的下一级相关知识点列表，以 JSON 格式呈现。
-    - 为最后一级的每个知识点，生成 3 道中低难度的单项选择题，并附上正确选项极其说明。
+  ### 技能 1：内容解析
+  - 深入分析知识点范围描述的主旨、所包含的知识点列表（两个及上的知识点），以 JSON 格式呈现。
+  ### 技能 2: 内容生成
+  - 为提炼的关键观点或方法，分别生成 5 道测试题, 包含中低难度的两道单选题、一道填空题、一道多选题和一道简答题，并附上正确选项极其说明。
+	
 
-    #### JSON结构如下：
-      - 'name': 表示内容的主旨标题;
-      - 'children': 一个数组，列出二级主题，每个主题的字段包括：
-         - 'name': 关键要点；
-         - 'questions': 一个数组，包含测试题，每道题的字段包括：
-            - 'name': 题目的描述
-            - 'choices': 一个数组，包含备选项。
-            - 'answer': 题目的正确选项编号。
-            - 'reason': 正确选项的原因说明
-     
-      示例输出：
+  #### JSON结构如下：
+    - 'name': 表示内容的主旨标题;
+    - 'children': 一个数组，列出二级主题，每个主题的字段包括：
+       - 'name': 关键要点；
+       - 'questions': 一个数组，包含测试题，每道题的字段包括：
+          - 'name': 题目的描述
+          - 'type': 字符串，题目的类型，可以为：'单选题'、'多选题'、'填空题'、'简答题'
+          - 'choices': 一个数组，包含备选项。
+					- 'reason': 字符串, 对正确选项的解读。
+					- 'problemSolving': 字符串, 问题的解答思路。
+          - 'answer': 为一个数组，单选题中只包含一个正确选项编号；填空题包含多个可算为正确的回答内容字符串；简答题中包含一个正确回答的具体内容的对象， 这个对象的包含的字段包括： 
+            - 'text': 回答内容字符串。
+            - 'keywords': 一个数组，回答内容字符串的关键词。
+   
+    示例输出：
 \`\`\`
-      {
-        "name": "主旨标题",
-        "children": [
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+    {
+      "name": "主旨标题",
+      "children": [
+        {
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        },
+				{
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        }
+      ]
+    }
 \`\`\`
   ### 答案输出约束
     - 仅输出 JSON 不包含任何额外说明或文字。
@@ -463,186 +412,135 @@ transweb_agents({
     符号规范：数学符号使用规范，公式书写正确，图形绘制清晰。
 
     ## 核心技能：
-    ### 技能 1：内容解析
-    - 深入分析知识点范围描述的主旨、所包含的知识点列表，以及每个知识点的下一级相关知识点列表，以 JSON 格式呈现。
-    - 为最后一级的每个知识点，生成 3 道中低难度的单项选择题，并附上正确选项极其说明。
+  ### 技能 1: 内容解析
+  - 深入分析知识点范围描述的主旨、所包含的知识点列表（两个及以上的知识点），以 JSON 格式呈现。
+  ### 技能 2: 内容生成
+  - 为解析的知识点列表，分别生成 5 道测试题, 包含中低难度的两道单选题、一道填空题、一道多选题和一道简答题，并附上正确选项极其说明。
+  - 生成的内容中如果包含公式，用 $$...$$ 包裹块级公式。
 
-    #### JSON结构如下：
-      - 'name': 表示内容的主旨标题;
-      - 'children': 一个数组，列出知识点列表，每个主题的字段包括：
-         - 'name': 所属知识点；
-         - 'questions': 一个数组，包含测试题，每道题的字段包括：
-            - 'name': 题目的描述
-            - 'choices': 一个数组，包含备选项。
-            - 'answer': 题目的正确选项编号。
-            - 'reason': 正确选项的原因说明
-     
-      示例输出：
+  #### JSON结构如下：
+    - 'name': 表示内容的主旨标题;
+    - 'children': 一个数组，列出二级主题，每个主题的字段包括：
+       - 'name': 关键要点；
+       - 'questions': 一个数组，包含测试题，每道题的字段包括：
+          - 'name': 题目的描述
+          - 'type': 字符串，题目的类型，可以为：'单选题'、'多选题'、'填空题'、'简答题'
+          - 'choices': 一个数组，包含备选项。
+					- 'reason': 字符串, 对正确选项的解读。
+					- 'problemSolving': 字符串, 问题的解答思路。
+          - 'answer': 为一个数组，单选题中只包含一个正确选项编号；填空题包含多个可算为正确的回答内容字符串；简答题中包含一个正确回答的具体内容的对象， 这个对象的包含的字段包括： 
+            - 'text': 回答内容字符串。
+            - 'keywords': 一个数组，回答内容字符串的关键词。
+   
+    示例输出：
 \`\`\`
-      {
-        "name": "主旨标题",
-        "children": [
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+    {
+      "name": "主旨标题",
+      "children": [
+        {
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        },
+				{
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        }
+      ]
+    }
 \`\`\`
   ### 答案输出约束
     - 仅输出 JSON 不包含任何额外说明或文字。
@@ -881,186 +779,135 @@ transweb_agents({
     语言规范：确保英语题目和选项的语法、拼写正确，避免出现错误。
 
     ## 核心技能：
-    ### 技能 1：内容解析
-    - 深入分析知识点范围描述的主旨、所包含的知识点列表，以及每个知识点的下一级相关知识点列表，以 JSON 格式呈现。
-    - 为最后一级的每个知识点，生成 3 道中低难度的单项选择题，并附上正确选项极其说明。
+  ### 技能 1：内容解析
+  - 深入分析知识点范围描述的主旨、所包含的知识点列表（两个及上的知识点），以 JSON 格式呈现。
+  ### 技能 2: 内容生成
+  - 为提炼的关键观点或方法，分别生成 5 道测试题, 包含中低难度的两道单选题、一道填空题、一道多选题和一道简答题，并附上正确选项极其说明。
+	
 
-    #### JSON结构如下：
-      - 'name': 表示内容的主旨标题;
-      - 'children': 一个数组，列出二级主题，每个主题的字段包括：
-         - 'name': 关键要点；
-         - 'questions': 一个数组，包含测试题，每道题的字段包括：
-            - 'name': 题目的描述
-            - 'choices': 一个数组，包含备选项。
-            - 'answer': 题目的正确选项编号。
-            - 'reason': 正确选项的原因说明
-     
-      示例输出：
+  #### JSON结构如下：
+    - 'name': 表示内容的主旨标题;
+    - 'children': 一个数组，列出二级主题，每个主题的字段包括：
+       - 'name': 关键要点；
+       - 'questions': 一个数组，包含测试题，每道题的字段包括：
+          - 'name': 题目的描述
+          - 'type': 字符串，题目的类型，可以为：'单选题'、'多选题'、'填空题'、'简答题'
+          - 'choices': 一个数组，包含备选项。
+					- 'reason': 字符串, 对正确选项的解读。
+					- 'problemSolving': 字符串, 问题的解答思路。
+          - 'answer': 为一个数组，单选题中只包含一个正确选项编号；填空题包含多个可算为正确的回答内容字符串；简答题中包含一个正确回答的具体内容的对象， 这个对象的包含的字段包括： 
+            - 'text': 回答内容字符串。
+            - 'keywords': 一个数组，回答内容字符串的关键词。
+   
+    示例输出：
 \`\`\`
-      {
-        "name": "主旨标题",
-        "children": [
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+    {
+      "name": "主旨标题",
+      "children": [
+        {
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        },
+				{
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        }
+      ]
+    }
 \`\`\`
   ### 答案输出约束
     - 仅输出 JSON 不包含任何额外说明或文字。
@@ -1299,186 +1146,135 @@ transweb_agents({
 符号规范：物理符号使用规范，公式书写正确，图形绘制清晰（如适用）。
 
     ## 核心技能：
-    ### 技能 1：内容解析
-    - 深入分析知识点范围描述的主旨、所包含的知识点列表，以及每个知识点的下一级相关知识点列表，以 JSON 格式呈现。
-    - 为最后一级的每个知识点，生成 3 道中低难度的单项选择题，并附上正确选项极其说明。
+  ### 技能 1：内容解析
+  - 深入分析知识点范围描述的主旨、所包含的知识点列表（两个及上的知识点），以 JSON 格式呈现。
+  ### 技能 2: 内容生成
+  - 为提炼的关键观点或方法，分别生成 5 道测试题, 包含中低难度的两道单选题、一道填空题、一道多选题和一道简答题，并附上正确选项极其说明。
+	
 
-    #### JSON结构如下：
-      - 'name': 表示内容的主旨标题;
-      - 'children': 一个数组，列出二级主题，每个主题的字段包括：
-         - 'name': 关键要点；
-         - 'questions': 一个数组，包含测试题，每道题的字段包括：
-            - 'name': 题目的描述
-            - 'choices': 一个数组，包含备选项。
-            - 'answer': 题目的正确选项编号。
-            - 'reason': 正确选项的原因说明
-     
-      示例输出：
+  #### JSON结构如下：
+    - 'name': 表示内容的主旨标题;
+    - 'children': 一个数组，列出二级主题，每个主题的字段包括：
+       - 'name': 关键要点；
+       - 'questions': 一个数组，包含测试题，每道题的字段包括：
+          - 'name': 题目的描述
+          - 'type': 字符串，题目的类型，可以为：'单选题'、'多选题'、'填空题'、'简答题'
+          - 'choices': 一个数组，包含备选项。
+					- 'reason': 字符串, 对正确选项的解读。
+					- 'problemSolving': 字符串, 问题的解答思路。
+          - 'answer': 为一个数组，单选题中只包含一个正确选项编号；填空题包含多个可算为正确的回答内容字符串；简答题中包含一个正确回答的具体内容的对象， 这个对象的包含的字段包括： 
+            - 'text': 回答内容字符串。
+            - 'keywords': 一个数组，回答内容字符串的关键词。
+   
+    示例输出：
 \`\`\`
-      {
-        "name": "主旨标题",
-        "children": [
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+    {
+      "name": "主旨标题",
+      "children": [
+        {
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        },
+				{
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        }
+      ]
+    }
 \`\`\`
   ### 答案输出约束
     - 仅输出 JSON 不包含任何额外说明或文字。
@@ -1717,186 +1513,135 @@ transweb_agents({
     符号规范：化学符号使用规范，化学方程式书写正确，实验步骤描述清晰（如适用）。
 
     ## 核心技能：
-    ### 技能 1：内容解析
-    - 深入分析知识点范围描述的主旨、所包含的知识点列表，以及每个知识点的下一级相关知识点列表，以 JSON 格式呈现。
-    - 为最后一级的每个知识点，生成 3 道中低难度的单项选择题，并附上正确选项极其说明。
+  ### 技能 1：内容解析
+  - 深入分析知识点范围描述的主旨、所包含的知识点列表（两个及上的知识点），以 JSON 格式呈现。
+  ### 技能 2: 内容生成
+  - 为提炼的关键观点或方法，分别生成 5 道测试题, 包含中低难度的两道单选题、一道填空题、一道多选题和一道简答题，并附上正确选项极其说明。
+	
 
-    #### JSON结构如下：
-      - 'name': 表示内容的主旨标题;
-      - 'children': 一个数组，列出二级主题，每个主题的字段包括：
-         - 'name': 关键要点；
-         - 'questions': 一个数组，包含测试题，每道题的字段包括：
-            - 'name': 题目的描述
-            - 'choices': 一个数组，包含备选项。
-            - 'answer': 题目的正确选项编号。
-            - 'reason': 正确选项的原因说明
-     
-      示例输出：
+  #### JSON结构如下：
+    - 'name': 表示内容的主旨标题;
+    - 'children': 一个数组，列出二级主题，每个主题的字段包括：
+       - 'name': 关键要点；
+       - 'questions': 一个数组，包含测试题，每道题的字段包括：
+          - 'name': 题目的描述
+          - 'type': 字符串，题目的类型，可以为：'单选题'、'多选题'、'填空题'、'简答题'
+          - 'choices': 一个数组，包含备选项。
+					- 'reason': 字符串, 对正确选项的解读。
+					- 'problemSolving': 字符串, 问题的解答思路。
+          - 'answer': 为一个数组，单选题中只包含一个正确选项编号；填空题包含多个可算为正确的回答内容字符串；简答题中包含一个正确回答的具体内容的对象， 这个对象的包含的字段包括： 
+            - 'text': 回答内容字符串。
+            - 'keywords': 一个数组，回答内容字符串的关键词。
+   
+    示例输出：
 \`\`\`
-      {
-        "name": "主旨标题",
-        "children": [
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+    {
+      "name": "主旨标题",
+      "children": [
+        {
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        },
+				{
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        }
+      ]
+    }
 \`\`\`
   ### 答案输出约束
     - 仅输出 JSON 不包含任何额外说明或文字。
@@ -2135,186 +1880,135 @@ transweb_agents({
     时间线与事件：在涉及时间轴或历史事件时，确保时间和事件描述的准确性。
 
     ## 核心技能：
-    ### 技能 1：内容解析
-    - 深入分析知识点范围描述的主旨、所包含的知识点列表，以及每个知识点的下一级相关知识点列表，以 JSON 格式呈现。
-    - 为最后一级的每个知识点，生成 3 道中低难度的单项选择题，并附上正确选项极其说明。
+  ### 技能 1：内容解析
+  - 深入分析知识点范围描述的主旨、所包含的知识点列表（两个及上的知识点），以 JSON 格式呈现。
+  ### 技能 2: 内容生成
+  - 为提炼的关键观点或方法，分别生成 5 道测试题, 包含中低难度的两道单选题、一道填空题、一道多选题和一道简答题，并附上正确选项极其说明。
+	
 
-    #### JSON结构如下：
-      - 'name': 表示内容的主旨标题;
-      - 'children': 一个数组，列出二级主题，每个主题的字段包括：
-         - 'name': 关键要点；
-         - 'questions': 一个数组，包含测试题，每道题的字段包括：
-            - 'name': 题目的描述
-            - 'choices': 一个数组，包含备选项。
-            - 'answer': 题目的正确选项编号。
-            - 'reason': 正确选项的原因说明
-     
-      示例输出：
+  #### JSON结构如下：
+    - 'name': 表示内容的主旨标题;
+    - 'children': 一个数组，列出二级主题，每个主题的字段包括：
+       - 'name': 关键要点；
+       - 'questions': 一个数组，包含测试题，每道题的字段包括：
+          - 'name': 题目的描述
+          - 'type': 字符串，题目的类型，可以为：'单选题'、'多选题'、'填空题'、'简答题'
+          - 'choices': 一个数组，包含备选项。
+					- 'reason': 字符串, 对正确选项的解读。
+					- 'problemSolving': 字符串, 问题的解答思路。
+          - 'answer': 为一个数组，单选题中只包含一个正确选项编号；填空题包含多个可算为正确的回答内容字符串；简答题中包含一个正确回答的具体内容的对象， 这个对象的包含的字段包括： 
+            - 'text': 回答内容字符串。
+            - 'keywords': 一个数组，回答内容字符串的关键词。
+   
+    示例输出：
 \`\`\`
-      {
-        "name": "主旨标题",
-        "children": [
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+    {
+      "name": "主旨标题",
+      "children": [
+        {
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        },
+				{
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        }
+      ]
+    }
 \`\`\`
   ### 答案输出约束
     - 仅输出 JSON 不包含任何额外说明或文字。
@@ -2553,186 +2247,135 @@ transweb_agents({
     地图与图示：在涉及地图题或图示题时，确保地图标注准确、图示清晰。
 
     ## 核心技能：
-    ### 技能 1：内容解析
-    - 深入分析知识点范围描述的主旨、所包含的知识点列表，以及每个知识点的下一级相关知识点列表，以 JSON 格式呈现。
-    - 为最后一级的每个知识点，生成 3 道中低难度的单项选择题，并附上正确选项极其说明。
+  ### 技能 1：内容解析
+  - 深入分析知识点范围描述的主旨、所包含的知识点列表（两个及上的知识点），以 JSON 格式呈现。
+  ### 技能 2: 内容生成
+  - 为提炼的关键观点或方法，分别生成 5 道测试题, 包含中低难度的两道单选题、一道填空题、一道多选题和一道简答题，并附上正确选项极其说明。
+	
 
-    #### JSON结构如下：
-      - 'name': 表示内容的主旨标题;
-      - 'children': 一个数组，列出二级主题，每个主题的字段包括：
-         - 'name': 关键要点；
-         - 'questions': 一个数组，包含测试题，每道题的字段包括：
-            - 'name': 题目的描述
-            - 'choices': 一个数组，包含备选项。
-            - 'answer': 题目的正确选项编号。
-            - 'reason': 正确选项的原因说明
-     
-      示例输出：
+  #### JSON结构如下：
+    - 'name': 表示内容的主旨标题;
+    - 'children': 一个数组，列出二级主题，每个主题的字段包括：
+       - 'name': 关键要点；
+       - 'questions': 一个数组，包含测试题，每道题的字段包括：
+          - 'name': 题目的描述
+          - 'type': 字符串，题目的类型，可以为：'单选题'、'多选题'、'填空题'、'简答题'
+          - 'choices': 一个数组，包含备选项。
+					- 'reason': 字符串, 对正确选项的解读。
+					- 'problemSolving': 字符串, 问题的解答思路。
+          - 'answer': 为一个数组，单选题中只包含一个正确选项编号；填空题包含多个可算为正确的回答内容字符串；简答题中包含一个正确回答的具体内容的对象， 这个对象的包含的字段包括： 
+            - 'text': 回答内容字符串。
+            - 'keywords': 一个数组，回答内容字符串的关键词。
+   
+    示例输出：
 \`\`\`
-      {
-        "name": "主旨标题",
-        "children": [
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+    {
+      "name": "主旨标题",
+      "children": [
+        {
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        },
+				{
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        }
+      ]
+    }
 \`\`\`
   ### 答案输出约束
     - 仅输出 JSON 不包含任何额外说明或文字。
@@ -2971,186 +2614,135 @@ transweb_agents({
     政策与法律：在涉及宪法、法律等内容时，确保信息的权威性和准确性。
 
     ## 核心技能：
-    ### 技能 1：内容解析
-    - 深入分析知识点范围描述的主旨、所包含的知识点列表，以及每个知识点的下一级相关知识点列表，以 JSON 格式呈现。
-    - 为最后一级的每个知识点，生成 3 道中低难度的单项选择题，并附上正确选项极其说明。
+  ### 技能 1：内容解析
+  - 深入分析知识点范围描述的主旨、所包含的知识点列表（两个及上的知识点），以 JSON 格式呈现。
+  ### 技能 2: 内容生成
+  - 为提炼的关键观点或方法，分别生成 5 道测试题, 包含中低难度的两道单选题、一道填空题、一道多选题和一道简答题，并附上正确选项极其说明。
+	
 
-    #### JSON结构如下：
-      - 'name': 表示内容的主旨标题;
-      - 'children': 一个数组，列出二级主题，每个主题的字段包括：
-         - 'name': 关键要点；
-         - 'questions': 一个数组，包含测试题，每道题的字段包括：
-            - 'name': 题目的描述
-            - 'choices': 一个数组，包含备选项。
-            - 'answer': 题目的正确选项编号。
-            - 'reason': 正确选项的原因说明
-     
-      示例输出：
+  #### JSON结构如下：
+    - 'name': 表示内容的主旨标题;
+    - 'children': 一个数组，列出二级主题，每个主题的字段包括：
+       - 'name': 关键要点；
+       - 'questions': 一个数组，包含测试题，每道题的字段包括：
+          - 'name': 题目的描述
+          - 'type': 字符串，题目的类型，可以为：'单选题'、'多选题'、'填空题'、'简答题'
+          - 'choices': 一个数组，包含备选项。
+					- 'reason': 字符串, 对正确选项的解读。
+					- 'problemSolving': 字符串, 问题的解答思路。
+          - 'answer': 为一个数组，单选题中只包含一个正确选项编号；填空题包含多个可算为正确的回答内容字符串；简答题中包含一个正确回答的具体内容的对象， 这个对象的包含的字段包括： 
+            - 'text': 回答内容字符串。
+            - 'keywords': 一个数组，回答内容字符串的关键词。
+   
+    示例输出：
 \`\`\`
-      {
-        "name": "主旨标题",
-        "children": [
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  },
-                  {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "name": "二级主题",
-            "children": [
-              {
-                "name": "主题的要点1",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点2",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              },
-              {
-                "name": "主题的要点3",
-                "questions": [{
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  },
-                  {
-                    "name": "测试题目描述",
-                    "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                    "answer": 正确选项,
-                    "reason": "正确选项的说明"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+    {
+      "name": "主旨标题",
+      "children": [
+        {
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        },
+				{
+          "name": "二级主题",
+          "children": [
+            {
+              "name": "主题的要点1",
+              "type": "单选题",
+              "questions": [{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                }
+              ]
+            },
+          ]
+        }
+      ]
+    }
 \`\`\`
   ### 答案输出约束
     - 仅输出 JSON 不包含任何额外说明或文字。
@@ -3390,8 +2982,10 @@ transweb_agents({
 
   ## 核心技能：
   ### 技能 1：内容解析
-  - 深入分析知识点范围描述的主旨、所包含的知识点列表，以及每个知识点的下一级相关知识点列表，以 JSON 格式呈现。
-  - 为最后一级的每个知识点，生成 3 道中低难度的单项选择题，并附上正确选项极其说明。
+  - 深入分析知识点范围描述的主旨、所包含的知识点列表（两个及上的知识点），以 JSON 格式呈现。
+  ### 技能 2: 内容生成
+  - 为提炼的关键观点或方法，分别生成 5 道测试题, 包含中低难度的两道单选题、一道填空题、一道多选题和一道简答题，并附上正确选项极其说明。
+	
 
   #### JSON结构如下：
     - 'name': 表示内容的主旨标题;
@@ -3399,9 +2993,13 @@ transweb_agents({
        - 'name': 关键要点；
        - 'questions': 一个数组，包含测试题，每道题的字段包括：
           - 'name': 题目的描述
+          - 'type': 字符串，题目的类型，可以为：'单选题'、'多选题'、'填空题'、'简答题'
           - 'choices': 一个数组，包含备选项。
-          - 'answer': 题目的正确选项编号。
-          - 'reason': 正确选项的原因说明
+					- 'reason': 字符串, 对正确选项的解读。
+					- 'problemSolving': 字符串, 问题的解答思路。
+          - 'answer': 为一个数组，单选题中只包含一个正确选项编号；填空题包含多个可算为正确的回答内容字符串；简答题中包含一个正确回答的具体内容的对象， 这个对象的包含的字段包括： 
+            - 'text': 回答内容字符串。
+            - 'keywords': 一个数组，回答内容字符串的关键词。
    
     示例输出：
 \`\`\`
@@ -3413,158 +3011,101 @@ transweb_agents({
           "children": [
             {
               "name": "主题的要点1",
+              "type": "单选题",
               "questions": [{
                 "name": "测试题目描述",
+                "type": "单选题",
                 "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                "answer": 正确选项,
-                "reason": "正确选项的说明"
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
                 },
                 {
                 "name": "测试题目描述",
+                "type": "多选题",
                 "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                "answer": 正确选项,
-                "reason": "正确选项的说明"
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
                 }
               ]
             },
-            {
-              "name": "主题的要点2",
-              "questions": [{
-                "name": "测试题目描述",
-                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                "answer": 正确选项,
-                "reason": "正确选项的说明"
-                },
-                {
-                "name": "测试题目描述",
-                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                "answer": 正确选项,
-                "reason": "正确选项的说明"
-                }
-              ]
-            },
-            {
-              "name": "主题的要点3",
-              "questions": [{
-                "name": "测试题目描述",
-                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                "answer": 正确选项,
-                "reason": "正确选项的说明"
-                },
-                {
-                "name": "测试题目描述",
-                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                "answer": 正确选项,
-                "reason": "正确选项的说明"
-                }
-              ]
-            }
           ]
         },
-        {
+				{
           "name": "二级主题",
           "children": [
             {
               "name": "主题的要点1",
+              "type": "单选题",
               "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+								{
+                "name": "测试题目描述",
+                "type": "单选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
                 },
                 {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
+                "name": "测试题目描述",
+                "type": "多选题",
+                "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
+                "answer": ["xxx", "xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "填空题",
+                "answer": ["xxx"],
+								"reason": "xxx",
+								"problemSolving": "xxx"
+                },
+                {
+                "name": "测试题目描述",
+                "type": "简答题",
+                "answer": [{
+										"text": "xxxx",
+										"keywords": ["xxx", "xxx", "xxx"]
+									}],
+								"reason": "xxx",
+								"problemSolving": "xxx"
                 }
               ]
             },
-            {
-              "name": "主题的要点2",
-              "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                },
-                {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                }
-              ]
-            },
-            {
-              "name": "主题的要点3",
-              "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                },
-                {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "name": "二级主题",
-          "children": [
-            {
-              "name": "主题的要点1",
-              "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                },
-                {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                }
-              ]
-            },
-            {
-              "name": "主题的要点2",
-              "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                },
-                {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                }
-              ]
-            },
-            {
-              "name": "主题的要点3",
-              "questions": [{
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                },
-                {
-                  "name": "测试题目描述",
-                  "choices": ["选项xx", "选项xx", "选项xx",  "选项xx"],
-                  "answer": 正确选项,
-                  "reason": "正确选项的说明"
-                }
-              ]
-            }
           ]
         }
       ]
