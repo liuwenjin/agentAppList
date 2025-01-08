@@ -390,7 +390,7 @@ Example of results:
           // 创建一个临时的a标签
           const link = document.createElement("a");
           link.href = iData;
-          link.download = title + ".png"; // 设置下载的文件名
+          link.download =  title + ".png"; // 设置下载的文件名
           // 模拟点击下载
           link.click();
         });
@@ -486,17 +486,17 @@ Example of results:
       for (let i = 0; i < arr.length; i++) {
         let item = arr[i];
         let tItem = this.qMap[item.point][i];
-        let t = `<h4 style="margin-top: 50px;"> <i class="bi bi-check2"></i> ${
-          i + 1
-        }. ${item.name} (${item.type})</h4>\n\r`;
+        let t = `<h4 style="margin-top: 50px;"> <i class="bi bi-check2"></i> ${i + 1}. ${
+          item.name
+        } (${item.type})</h4>\n\r`;
         if (!tItem.score) {
-          t = `<h4 style="margin-top: 50px;"> <i class="bi bi-star"></i> ${
-            i + 1
-          }. ${item.name} (${item.type})</h4>\n\r`;
+          t = `<h4 style="margin-top: 50px;"> <i class="bi bi-star"></i> ${i + 1}. ${item.name} (${
+            item.type
+          })</h4>\n\r`;
         } else if (tItem.score !== tItem._score) {
-          t = `<h4 style="margin-top: 50px;"> <i class="bi bi-star-half"></i> ${
-            i + 1
-          }. ${item.name} (${item.type})</h4>\n\r`;
+          t = `<h4 style="margin-top: 50px;"> <i class="bi bi-star-half"></i> ${i + 1}. ${
+            item.name
+          } (${item.type})</h4>\n\r`;
         }
         if (item.type === "单选题" || item.type === "多选题") {
           let cArr = item.choices;
@@ -532,19 +532,6 @@ Example of results:
           t += `**解题思路**: ${tItem.problemSolving}`;
         }
         str += t;
-      }
-      let params = null;
-      if (
-        this.currentApp &&
-        typeof this.currentApp.resultMacro === "function"
-      ) {
-        params = this.currentApp.resultMacro();
-        let macros = this.currentApp.resultMacro();
-        for (let k in macros) {
-          const target = macros[k];
-          const regex = new RegExp(k, "g");
-          str = str.replace(regex, target);
-        }
       }
       return str;
     },
@@ -646,19 +633,6 @@ Example of results:
         item = json.summary[i];
         str += item + "\n\r";
         this.analysisText += item + "\n\r";
-      }
-
-      if (
-        this.currentApp &&
-        typeof this.currentApp.resultMacro === "function"
-      ) {
-        params = this.currentApp.resultMacro();
-        let macros = this.currentApp.resultMacro();
-        for (let k in macros) {
-          const target = macros[k];
-          const regex = new RegExp(k, "g");
-          str = str.replace(regex, target);
-        }
       }
       return str;
     },
