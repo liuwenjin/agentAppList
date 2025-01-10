@@ -9,7 +9,7 @@ transweb_agents({
             "description": '智能出题、专业讲解，错题变成新起点，一步步提升成绩。',
             "slogan": '语文备考小帮手：AI 测评与错题诊断系统',
             "slogan1": '覆盖核心考点 · 提升应试技巧 · 全面巩固语文基础',
-            "buttonText": '开始出语文题',
+            "buttonText": '生成高中语文题',
             "confirmTips": 'AI 智能生成，预计 30 秒内完成',
             "scanQrTips": '扫码检测，开启你的自我成长之旅！',
             "inputPlaceholder": '请输入高中语文知识点范围描述'
@@ -292,7 +292,7 @@ transweb_agents({
             "description": '智能出题、专业讲解，错题变成新起点，一步步提升成绩。',
             "slogan": '数学备考小帮手：AI 测评与错题诊断系统',
             "slogan1": '覆盖核心考点 · 提升应试技巧 · 全面巩固数学基础',
-            "buttonText": '开始出数学题',
+            "buttonText": '生成高中数学题',
             "confirmTips": 'AI 智能生成，预计 30 秒内完成',
             "scanQrTips": '扫码检测，开启你的自我成长之旅！',
             "inputPlaceholder": '请输入高中数学知识点范围描述'
@@ -577,7 +577,7 @@ transweb_agents({
             "description": '智能出题、专业讲解，错题变成新起点，一步步提升成绩。',
             "slogan": '英语备考小帮手：AI 测评与错题诊断系统',
             "slogan1": '覆盖核心考点 · 提升应试技巧 · 全面巩固英语基础',
-            "buttonText": '开始出英语题',
+            "buttonText": '生成高中英语题',
             "confirmTips": 'AI 智能生成，预计 30 秒内完成',
             "scanQrTips": '扫码检测，开启你的自我成长之旅！',
             "inputPlaceholder": '请输入高中英语知识点范围描述'
@@ -861,7 +861,7 @@ transweb_agents({
             "description": '智能出题、专业讲解，错题变成新起点，一步步提升成绩。',
             "slogan": '物理备考小帮手：AI 测评与错题诊断系统',
             "slogan1": '覆盖核心考点 · 提升应试技巧 · 全面巩固物理基础',
-            "buttonText": '开始出物理题',
+            "buttonText": '生成高中物理题',
             "confirmTips": 'AI 智能生成，预计 30 秒内完成',
             "scanQrTips": '扫码检测，开启你的自我成长之旅！',
             "inputPlaceholder": '请输入高中物理知识点范围描述'
@@ -1145,7 +1145,7 @@ transweb_agents({
             "description": '智能出题、专业讲解，错题变成新起点，一步步提升成绩。',
             "slogan": '化学备考小帮手：AI 测评与错题诊断系统',
             "slogan1": '覆盖核心考点 · 提升应试技巧 · 全面巩固化学基础',
-            "buttonText": '开始出化学题',
+            "buttonText": '生成高中化学题',
             "confirmTips": 'AI 智能生成，预计 30 秒内完成',
             "scanQrTips": '扫码检测，开启你的自我成长之旅！',
             "inputPlaceholder": '请输入高中化学知识点范围描述'
@@ -1429,7 +1429,7 @@ transweb_agents({
             "description": '智能出题、专业讲解，错题变成新起点，一步步提升成绩。',
             "slogan": '历史备考小帮手：AI 测评与错题诊断系统',
             "slogan1": '覆盖核心考点 · 提升应试技巧 · 全面巩固历史基础',
-            "buttonText": '开始出历史题',
+            "buttonText": '生成高中历史题',
             "confirmTips": 'AI 智能生成，预计 30 秒内完成',
             "scanQrTips": '扫码检测，开启你的自我成长之旅！',
             "inputPlaceholder": '请输入高中历史知识点范围描述'
@@ -1714,7 +1714,7 @@ transweb_agents({
             "description": '智能出题、专业讲解，错题变成新起点，一步步提升成绩。',
             "slogan": '地理备考小帮手：AI 测评与错题诊断系统',
             "slogan1": '覆盖核心考点 · 提升应试技巧 · 全面巩固地理基础',
-            "buttonText": '开始出地理题',
+            "buttonText": '生成高中地理题',
             "confirmTips": 'AI 智能生成，预计 30 秒内完成',
             "scanQrTips": '扫码检测，开启你的自我成长之旅！',
             "inputPlaceholder": '请输入高中地理知识点范围描述'
@@ -1999,7 +1999,7 @@ transweb_agents({
             "description": '智能出题、专业讲解，错题变成新起点，一步步提升成绩。',
             "slogan": '政治备考小帮手：AI 测评与错题诊断系统',
             "slogan1": '覆盖核心考点 · 提升应试技巧 · 全面巩固政治基础',
-            "buttonText": '开始出政治题',
+            "buttonText": '生成高中政治题',
             "confirmTips": 'AI 智能生成，预计 30 秒内完成',
             "scanQrTips": '扫码检测，开启你的自我成长之旅！',
             "inputPlaceholder": '请输入高中政治知识点范围描述'
@@ -2284,7 +2284,7 @@ transweb_agents({
             "description": '智能出题、专业讲解，错题变成新起点，一步步提升成绩。',
             "slogan": '生物备考小帮手：AI 测评与错题诊断系统',
             "slogan1": '覆盖核心考点 · 提升应试技巧 · 全面巩固生物基础',
-            "buttonText": '开始出生物题',
+            "buttonText": '生成高中生物题',
             "confirmTips": 'AI 智能生成，预计 30 秒内完成',
             "scanQrTips": '扫码检测，开启你的自我成长之旅！',
             "inputPlaceholder": '请输入高中生物知识点范围描述'
