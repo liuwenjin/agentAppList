@@ -141,6 +141,7 @@ const createInitialState = () => ({
   ],
   flag: { x: 700, y: 300, width: 4, height: 80 },
   score: 0,
+  flagBonusAwarded: false,
   gameOver: false,
   gameWon: false
 });
@@ -327,9 +328,12 @@ export default {
       if (this.isIntersecting(marioRect, flagRect)) {
         if (this.accountData.coins.length === 0) {
           this.accountData.gameWon = true;
-        } else {
+        } else if (!this.accountData.flagBonusAwarded) {
           this.accountData.score += 10;
+          this.accountData.flagBonusAwarded = true;
         }
+      } else {
+        this.accountData.flagBonusAwarded = false;
       }
     },
     moveHorizontally(distance) {
